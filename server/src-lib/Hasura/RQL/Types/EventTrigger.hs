@@ -66,17 +66,18 @@ defaultNumRetries = 0
 defaultRetryInterval :: Int
 defaultRetryInterval = 10
 
-defaultTimeoutSeconds:: Int
+defaultTimeoutSeconds :: Int
 defaultTimeoutSeconds = 60
 
 defaultRetryConf :: RetryConf
-defaultRetryConf = RetryConf defaultNumRetries defaultRetryInterval (Just defaultTimeoutSeconds)
+defaultRetryConf = RetryConf defaultNumRetries defaultRetryInterval (Just defaultTimeoutSeconds) Nothing
 
 data RetryConf
   = RetryConf
-  { rcNumRetries  :: !Int
-  , rcIntervalSec :: !Int
-  , rcTimeoutSec  :: !(Maybe Int)
+  { rcNumRetries     :: !Int
+  , rcIntervalSec    :: !Int
+  , rcTimeoutSec     :: !(Maybe Int)
+  , rcDeadLetterHook :: !(Maybe Text)
   } deriving (Show, Eq, Lift)
 
 $(deriveJSON (aesonDrop 2 snakeCase){omitNothingFields=True} ''RetryConf)
